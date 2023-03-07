@@ -9,7 +9,7 @@
 
 
 from module.hrnet import get_HRnet
-from module.OcrModule import get_ocr
+from module.CaaModule import get_caa
 from module.fam import get_fam
 from module.psa import get_spatial_channels
 import torch
@@ -24,7 +24,7 @@ class HRnet_fam_MutiAttention(nn.Module):
         self.fam2 = get_fam()
         self.fam3 = get_fam()
         #self.fam4 = get_fam()
-        self.ocr = get_ocr(last_inp_channels=256, down_channels=False)
+        self.caa = get_caa(last_inp_channels=256, down_channels=False)
 
         self.Mode = Mode
         # 架构模式
@@ -46,7 +46,7 @@ class HRnet_fam_MutiAttention(nn.Module):
         f = self.fam3([x0, f])
         f = x0 + f    #f: torch.Size([1, 256, 128, 128])
 
-        outputs = self.ocr(f)
+        outputs = self.caa(f)
 
         if self.Mode ==1:#并行
             #input = self.down_channels(f)
